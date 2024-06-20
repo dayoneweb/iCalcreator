@@ -140,11 +140,10 @@ trait DUEtrait
         $pc->addParamValue( self::DATE_TIME, false );
         $this->due = DateTimeFactory::setDate( $pc );
         if( $isDtstartSet ) {
-            DateTimeFactory::assertDatesAreInSequence(
-                $dtstart->getValue(),
-                $this->due->getValue(),
-                self::DUE
-            );
+            $inSequence = DateTimeFactory::assertDatesAreInSequence( $dtstart->value, $this->due->value);
+            if(!$inSequence){
+                $this->deleteDue();
+            }
         }
         return $this;
     }
