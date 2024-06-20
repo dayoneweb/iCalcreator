@@ -525,27 +525,15 @@ class DateTimeFactory
      * @param DateTime $first
      * @param DateTime $second
      * @param string $propName
-     * @return void
-     * @throws InvalidArgumentException
-     * @since  2.27.14 - 2019-02-03
      */
     public static function assertDatesAreInSequence(
         DateTime $first,
-        DateTime $second,
-        string $propName
-    ) : void
+        DateTime $second
+    ) : bool
     {
-        static $ERR  = '%s, dates are not in (asc) order (%s < _%s_)';
         if( $first->getTimestamp() > $second->getTimestamp()) {
-            throw new InvalidArgumentException(
-                sprintf(
-                    $ERR,
-                    $propName,
-                    $first->format( self::$YmdTHis ),
-                    $second->format( self::$YmdTHis )
-                )
-            );
-        }
+            return false;
+        } else return true;
     }
 
     /*
