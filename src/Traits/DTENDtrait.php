@@ -143,13 +143,12 @@ trait DTENDtrait
             ( $this instanceof VAcomponent ) // req for VAcomponent, default others
         );
         $this->dtend = DateTimeFactory::setDate( $pc, ( self::VFREEBUSY === $this->getCompType())); // $forceUTC
-        if( $isDtstartSet ) {
-            DateTimeFactory::assertDatesAreInSequence(
-                $dtstart->getValue(),
-                $this->dtend->getValue(),
-                self::DTEND
-            );
-        } // end if
+        if( $this->isDtstartSet()) {
+            $inSequence = DateTimeFactory::assertDatesAreInSequence( $dtstart->value, $this->dtend->value);
+            if(!$inSequence){
+                $this->deleteDtend();
+            }
+        }
         return $this;
     }
 }
